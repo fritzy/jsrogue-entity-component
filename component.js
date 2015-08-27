@@ -1,19 +1,29 @@
 "use strict";
 
 class Component {
-    constructor(stats) {
+    constructor(stats, priority) {
+        this.priority = priority || 0;
         this.stats = stats || {};
         this.name = this.constructor.name;
-        this.handlerMap = {};
+        this.handlers = [];
+        this.entity = null;
     }
 
-    get handlers() {
-        let handlers = [];
-        Object.keys(this.handlerMap).forEach(function (name) {
-            handlers.push({name: name, priority: this.handlerMap[name].priority, callback: this.handlerMap[name].func});
-        }.bind(this));
-        return handlers;
+    setEntity(entity) {
+        this.entity = entity;
     }
+
+    removeEntity(entity) {
+        this.entity = null;
+    }
+
+    addHandler(eventName, func, priority) {
+        if (typeof priority === 'undefined') {
+            priority = this.priority;
+        }
+        this.handlers.push({name: eventName, priority: priority, callback: func});
+    }
+
 }
 
 module.exports = Component;

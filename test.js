@@ -9,13 +9,20 @@ class Health extends Component {
     constructor(stats) {
         super(stats);
         this.stats.hp = stats.hp || 10;
-        this.handlerMap.takeHit = {
-            func: this.handleHit,
-            priority: 100
-        }
+        this.addHandler('takeHit', this.onHit, 100);
     }
 
-    handleHit(event) {
+    setEntity(entity) {
+        super.setEntity(entity);
+        entity.addStat('hp', this);
+    }
+
+    removeEntity(entity) {
+        super.removeEntity(entity);
+        entity.removeStat('hp');
+    }
+
+    onHit(event) {
         this.stats.hp -= event.dmg;
         return event;
     }
@@ -24,13 +31,10 @@ class Health extends Component {
 class Armor extends Component {
     constructor(stats) {
         super(stats);
-        this.handlerMap.takeHit = {
-            func: this.handleHit,
-            priority: 50
-        }
+        this.addHandler('takeHit', this.onHit, 50);
     }
 
-    handleHit(event) {
+    onHit(event) {
         event.dmg *= .5;
         return event;
     }
@@ -42,5 +46,7 @@ let armor = new Armor();
 person.addComponent(health);
 person.addComponent(armor);
 person.emit('takeHit', {dmg: 2});
-console.log(person.stats);
+for (let stat in person.stats) {
+    console.log("%s: %s", stat, person.stats[stat]);
+}
 

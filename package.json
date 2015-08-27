@@ -1,0 +1,28 @@
+{
+  "name": "@jsrogue/entity-component",
+  "version": "0.0.1",
+  "description": "Roguelike Component System in JavaScript ES6",
+  "main": "index.js",
+  "dependencies": {
+    "lodash": "^3.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fritzy/jsrogue-entity-component.git"
+  },
+  "keywords": [
+    "roguelike",
+    "game",
+    "component"
+  ],
+  "author": "Nathan Fritz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fritzy/jsrogue-entity-component/issues"
+  },
+  "homepage": "https://github.com/fritzy/jsrogue-entity-component#readme"
+}

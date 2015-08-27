@@ -14,45 +14,52 @@ A Component based approach to games allows you to add functionality without reor
 'use strict';
 
 let EC = require('@jsrogue/entity-component');
+let Entity = EC.Entity;
 
-class Health extends EC.Component {
+class Health extends Component {
     constructor(stats) {
         super(stats);
         this.stats.hp = stats.hp || 10;
-        this.handlerMap.takeHit = {
-            func: this.handleHit,
-            priority: 100
-        }
+        this.addHandler('takeHit', this.onHit, 100);
     }
 
-    handleHit(event) {
+    setEntity(entity) {
+        super.setEntity(entity);
+        entity.addStat('hp', this);
+    }
+
+    removeEntity(entity) {
+        super.removeEntity(entity);
+        entity.removeStat('hp');
+    }
+
+    onHit(event) {
         this.stats.hp -= event.dmg;
         return event;
     }
 }
 
-class Armor extends EC.Component {
+class Armor extends Component {
     constructor(stats) {
         super(stats);
-        this.handlerMap.takeHit = {
-            func: this.handleHit,
-            priority: 50
-        }
+        this.addHandler('takeHit', this.onHit, 50);
     }
 
-    handleHit(event) {
+    onHit(event) {
         event.dmg *= .5;
         return event;
     }
 }
 
-let person = new EC.Entity();
+let person = new Entity();
 let health = new Health({hp: 100});
 let armor = new Armor();
 person.addComponent(health);
 person.addComponent(armor);
-person.emit('takeHit', {dmg: 8});
-console.log(person.stats); // {hp: 96}
+person.emit('takeHit', {dmg: 2});
+for (let stat in person.stats) {
+    console.log("%s: %s", stat, person.stats[stat]);
+}
 ```
 
 ## Usage
