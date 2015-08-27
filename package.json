@@ -1,6 +1,6 @@
 {
   "name": "@jsrogue/entity-component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Roguelike Component System in JavaScript ES6",
   "main": "index.js",
   "dependencies": {
